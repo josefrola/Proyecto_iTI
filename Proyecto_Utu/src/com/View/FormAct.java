@@ -113,20 +113,8 @@ public class FormAct extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-             Conexion con = new Conexion();
-       con.conect();
-       /*try {
-            /*int codigo = Integer.parseInt(txt_id.getText());
-            String nombre = txt_nameActivity.getText();
-            String description = txt_description.getText();
-            Business_Activity a = new Business_Activity(codigo, nombre, description);
-            JOptionPane.showMessageDialog(null, "Se Guardaron los datos Correctamente");*/
-
-        /*} catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error al Guardar los datos " + e);
-        }*/
-
-
+      
+     
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

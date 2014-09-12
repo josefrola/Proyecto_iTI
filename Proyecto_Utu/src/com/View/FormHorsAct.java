@@ -21,8 +21,7 @@ public class FormHorsAct extends javax.swing.JFrame {
     public FormHorsAct() {
         initComponents();
         this.setLocationRelativeTo(null);
-        DefaultComboBoxModel mdl = new DefaultComboBoxModel(DataConnexion.LoadData());
-        this.cmbDBActivity.setModel(mdl);
+       
     }
 
     /**

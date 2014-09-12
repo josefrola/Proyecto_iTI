@@ -78,7 +78,7 @@ public class DataConnexion {
         }
     }
 
-    public static Vector<Business_Activity> LoadData() {
+    /*public static Vector<Business_Activity> LoadData() {
         Vector<Business_Activity> act = new Vector<>();
         Business_Activity cb = null;
 
@@ -97,6 +97,6 @@ public class DataConnexion {
 
         return act;
 
-    }
+    }*/
 
 }
