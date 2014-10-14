@@ -32,8 +32,9 @@ public class MDISoftware extends javax.swing.JFrame {
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         openMenuItem = new javax.swing.JMenuItem();
-        saveMenuItem = new javax.swing.JMenuItem();
         saveAsMenuItem = new javax.swing.JMenuItem();
+        saveMenuItem = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         exitMenuItem = new javax.swing.JMenuItem();
         editMenu = new javax.swing.JMenu();
         cutMenuItem = new javax.swing.JMenuItem();
@@ -45,11 +46,13 @@ public class MDISoftware extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        fileMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uy/com/utu/gui/menu_act.png"))); // NOI18N
         fileMenu.setMnemonic('f');
         fileMenu.setText("Actividades");
 
+        openMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uy/com/utu/gui/icono_menu_activity.png"))); // NOI18N
         openMenuItem.setMnemonic('o');
-        openMenuItem.setText("Nueva Actividad");
+        openMenuItem.setText(" Actividad");
         openMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 openMenuItemActionPerformed(evt);
@@ -57,13 +60,34 @@ public class MDISoftware extends javax.swing.JFrame {
         });
         fileMenu.add(openMenuItem);
 
-        saveMenuItem.setMnemonic('s');
-        saveMenuItem.setText("Editar Actividad");
-        fileMenu.add(saveMenuItem);
-
+        saveAsMenuItem.setIcon(new javax.swing.ImageIcon("/home/jose/Imágenes/Imagenes Java/icono_conf_activity_monitor.png")); // NOI18N
         saveAsMenuItem.setMnemonic('a');
         saveAsMenuItem.setText("Configurar Actividades");
+        saveAsMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveAsMenuItemActionPerformed(evt);
+            }
+        });
         fileMenu.add(saveAsMenuItem);
+
+        saveMenuItem.setIcon(new javax.swing.ImageIcon("/home/jose/Imágenes/Imagenes Java/icono_clock_activity.png")); // NOI18N
+        saveMenuItem.setMnemonic('s');
+        saveMenuItem.setText("Horarios Actividades");
+        saveMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveMenuItemActionPerformed(evt);
+            }
+        });
+        fileMenu.add(saveMenuItem);
+
+        jMenuItem1.setIcon(new javax.swing.ImageIcon("/home/jose/Imágenes/Imagenes Java/icono_config_activity.png")); // NOI18N
+        jMenuItem1.setText("Configurar Gimancios");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        fileMenu.add(jMenuItem1);
 
         exitMenuItem.setMnemonic('x');
         exitMenuItem.setText("Listar Actividad");
@@ -76,11 +100,18 @@ public class MDISoftware extends javax.swing.JFrame {
 
         menuBar.add(fileMenu);
 
+        editMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uy/com/utu/gui/socios.png"))); // NOI18N
         editMenu.setMnemonic('e');
         editMenu.setText("Socios");
 
+        cutMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uy/com/utu/gui/icono_nuevo_socio.png"))); // NOI18N
         cutMenuItem.setMnemonic('t');
         cutMenuItem.setText("Nuevo Socio");
+        cutMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cutMenuItemActionPerformed(evt);
+            }
+        });
         editMenu.add(cutMenuItem);
 
         copyMenuItem.setMnemonic('y');
@@ -116,7 +147,7 @@ public class MDISoftware extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 581, Short.MAX_VALUE)
+            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 561, Short.MAX_VALUE)
         );
 
         pack();
@@ -130,6 +161,26 @@ public class MDISoftware extends javax.swing.JFrame {
        FormActivity act = new FormActivity();
        act.setVisible(true);
     }//GEN-LAST:event_openMenuItemActionPerformed
+
+    private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
+       ActivitiesTimetable tm = new ActivitiesTimetable();
+       tm.setVisible(true);
+    }//GEN-LAST:event_saveMenuItemActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+       FormLocationActivity la= new FormLocationActivity();
+       la.setVisible(true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void saveAsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsMenuItemActionPerformed
+        ActivitiesTimetable at = new ActivitiesTimetable();
+        at.setVisible(true);
+    }//GEN-LAST:event_saveAsMenuItemActionPerformed
+
+    private void cutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cutMenuItemActionPerformed
+       FormNewSocio so = new FormNewSocio();
+       so.setVisible(true);
+    }//GEN-LAST:event_cutMenuItemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -176,6 +227,7 @@ public class MDISoftware extends javax.swing.JFrame {
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenu helpMenu;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem openMenuItem;
     private javax.swing.JMenuItem pasteMenuItem;

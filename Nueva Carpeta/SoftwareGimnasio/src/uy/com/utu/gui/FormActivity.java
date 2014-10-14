@@ -5,6 +5,7 @@
  */
 package uy.com.utu.gui;
 
+import java.awt.HeadlessException;
 import uy.com.utu.dto.Activity;
 import java.util.ArrayList;
 import java.util.List;
@@ -82,14 +83,12 @@ public class FormActivity extends javax.swing.JFrame {
         txt_id.setText(String.valueOf(id));
     }
 
-    public  void searchActivity(Integer id) {
-        
-        
-        //try {
-            activity = activityBus.get(id);           
-           
-            
-            if (activity.getId()!= null) {
+    public void searchActivity(Integer id) {
+
+        try {
+            activity = activityBus.get(id);
+
+            if (activity.getId() != null) {
                 txt_id.setText(String.valueOf(activity.getId()));
                 txt_nameActivity.setText(activity.getName());
                 txt_description.setText(activity.getDetails());
@@ -97,30 +96,43 @@ public class FormActivity extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Actividad no encontrada");
             }
 
-        /*} catch (Exception e) {
-            
-        }*/
+        } catch (HeadlessException e) {
+            JOptionPane.showMessageDialog(null, "Error al cargar los datos" + e);
+        }
 
     }
 
     public void deleteActivity() {
-        Integer id = Integer.parseInt(txt_id.getText());
-        String rpta = activityBus.delete(id);
-        if (rpta == null) {
-            JOptionPane.showMessageDialog(null, "Actividad eliminada Correctamente");
-        } else {
-            JOptionPane.showMessageDialog(null, "Error al eliminar la actividad " + rpta);
+        try {
+            Integer id = Integer.parseInt(txt_id.getText());
+            String rpta = activityBus.delete(id);
+            if (rpta == null) {
+                JOptionPane.showMessageDialog(null, "Actividad eliminada Correctamente");
+            } else {
+                JOptionPane.showMessageDialog(null, "Error al eliminar la actividad " + rpta);
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al eliminar los datos " + e);
         }
+
     }
 
     public void updateActivity() {
-        allocateTickets();
-        String rpta = activityBus.update(activity);
-        if (null != rpta) {
-            JOptionPane.showMessageDialog(null, "Error al actualizar" + rpta);
-        } else {
-            JOptionPane.showMessageDialog(null, "Actividad actualizada correctamente");
+        try {
+
+            allocateTickets();
+            String rpta = activityBus.update(activity);
+            if (null != rpta) {
+                JOptionPane.showMessageDialog(null, "Error al actualizar" + rpta);
+            } else {
+                JOptionPane.showMessageDialog(null, "Actividad actualizada correctamente");
+            }
+
+        } catch (HeadlessException e) {
+            JOptionPane.showMessageDialog(null, "Error al actualizar los datos " + e);
         }
+
     }
 
     public void cleanEntries() {
@@ -241,7 +253,6 @@ public class FormActivity extends javax.swing.JFrame {
         jButton2.setBounds(233, 20, 50, 30);
 
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uy/com/utu/gui/icono_edit.png"))); // NOI18N
-        jButton4.setActionCommand("");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
@@ -281,7 +292,7 @@ public class FormActivity extends javax.swing.JFrame {
         tblActivity.setToolTipText("");
         jScrollPane4.setViewportView(tblActivity);
 
-        getContentPane().add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 330, 680, 120));
+        getContentPane().add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 320, 680, 120));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
