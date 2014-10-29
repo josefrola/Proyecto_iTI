@@ -57,6 +57,8 @@ public class ConfigurationGimImp implements ConfigurationGimDao{
         return list;
     
     }
+    
+    
   
 
     /*

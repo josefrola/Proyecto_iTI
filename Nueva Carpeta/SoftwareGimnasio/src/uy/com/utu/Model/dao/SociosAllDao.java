@@ -5,22 +5,20 @@
  */
 
 package uy.com.utu.Model.dao;
-import uy.com.utu.dto.Activity;
+import uy.com.utu.dto.SociosAll;
 import java.util.List;
-       
+
 
 /**
  *
  * @author jose
  */
-public interface ActivityDao {
-    
-    public List<Activity> list();
-    public String  insert(Activity activity);
-    public Integer idActivity();
-    public Activity get(Integer id);
+public interface SociosAllDao {
+    public List<SociosAll> list();
+    public String insert(SociosAll sociosall);
+    public Integer idSociosall();
+    public SociosAll get(Integer id);
     public String delete(Integer id);
-    public String upadte (Activity activity);
-    
-    
+    public String update(SociosAll sociosall);
+        
 }

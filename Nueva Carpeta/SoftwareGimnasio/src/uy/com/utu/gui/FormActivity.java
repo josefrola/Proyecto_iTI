@@ -9,7 +9,6 @@ import java.awt.HeadlessException;
 import uy.com.utu.dto.Activity;
 import java.util.ArrayList;
 import java.util.List;
-import javax.sound.midi.SysexMessage;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import uy.com.utu.business.ActivityBus;
@@ -270,7 +269,7 @@ public class FormActivity extends javax.swing.JFrame {
         jPanel1.add(jButton5);
         jButton5.setBounds(180, 20, 50, 30);
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 690, 70));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 690, 70));
 
         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uy/com/utu/gui/icono_search.png"))); // NOI18N
         jButton6.addActionListener(new java.awt.event.ActionListener() {

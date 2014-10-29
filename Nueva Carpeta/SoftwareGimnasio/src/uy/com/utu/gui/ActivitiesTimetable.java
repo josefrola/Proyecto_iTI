@@ -3,14 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package uy.com.utu.gui;
 
-import uy.com.utu.cone.sql.ConectaDB;
+import com.sun.management.jmx.Trace;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import uy.com.utu.cone.sql.ConectaDB;
+import uy.com.utu.dto.ConfigurationActivity;
+import uy.com.utu.business.ConfigurationActivityBus;
 
 /**
  *
@@ -18,20 +23,95 @@ import java.sql.SQLException;
  */
 public class ActivitiesTimetable extends javax.swing.JFrame {
 
+    public ConfigurationActivity actconf;
+    public ConfigurationActivityBus actcionfBus;
+
     /**
      * Creates new form ActivitiesTimetable
      */
-    public ActivitiesTimetable() {
+    public ActivitiesTimetable() throws SQLException {
         initComponents();
         setLocationRelativeTo(null);
         this.setTitle("Configuración de Horarios y Días de Actividades");
         this.selectAct.removeAllItems();
         this.SelectGimnasio.removeAllItems();
         this.selectsexo.removeAllItems();
+        selectAct.addItem("Seleccione Datos");
+        SelectGimnasio.addItem("Seleccione Datos");
+        actcionfBus = new ConfigurationActivityBus();
+        SelectActivity();
+        SelectGym();
+        selectSexo();
+        idPlan();
+
     }
-    
-    public final void LoadSelect(){
-        
+
+    public final void LoadSelect() {
+
+    }
+
+    public void allocateTickets() {
+        actconf = new ConfigurationActivity();
+
+        //seleccionamos los datos del combo para trair sus id
+        String seleccionado = (String) selectAct.getSelectedItem();
+        String nameslected = (String) SelectGimnasio.getSelectedItem();
+        String SelectSexo = (String) selectsexo.getSelectedItem();
+
+        Integer id_act = 0;
+        Integer id_gym = 0;
+        Integer id_sexo = 0;
+        try {
+            id_act = ReturnidActivity(seleccionado);
+            id_gym = ReturnIdGym(nameslected);
+            id_sexo = ReturnIdSexo(SelectSexo);
+
+            //variables
+            String Monday = "";
+            String Tuesday = "";
+            String Wednsesday = "";
+            String Thursday = "";
+            String Friday = "";
+            String Saterday = "";
+
+            if (checkboxLunes.isSelected() == true) {
+                Monday = "Lunes";
+            }
+            if (checkboxMartes.isSelected() == true) {
+                Tuesday = "Martes";
+            }
+            if (checkboxMiercoles.isSelected() == true) {
+                Wednsesday = "Miercoles";
+            }
+            if (checkoxJueves.isSelected() == true) {
+                Thursday = "Jueves";
+            }
+            if (checkboxViernes.isSelected() == true) {
+                Friday = "Viernes";
+            }
+            if (checkBoxSabado.isSelected() == true) {
+                Saterday = "Sabado";
+            }
+            actconf.setNameconf(txtname.getText());
+            actconf.setId_activity(id_act);
+            actconf.setId_Gym(id_gym);
+            actconf.setId_sexo(id_sexo);
+            actconf.setFrom_time(txthora1.getText());
+            actconf.setTime_to(txthora2.getText());
+            actconf.setMonday(Monday);
+            actconf.setTuesday(Tuesday);
+            actconf.setWednsesday(Wednsesday);
+            actconf.setThursday(Thursday);
+            actconf.setFriday(Friday);
+            actconf.setSaterday(Saterday);
+            actconf.setPrice(Float.parseFloat(txtcosto.getText()));
+            actconf.setEdadDesde(Integer.parseInt(txtedaddesde1.getText()));
+            actconf.setEddadHasta(Integer.parseInt(txtedadhasta.getText()));
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ActivitiesTimetable.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     /**
@@ -53,35 +133,61 @@ public class ActivitiesTimetable extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jCheckBox2 = new javax.swing.JCheckBox();
-        jCheckBox3 = new javax.swing.JCheckBox();
-        jCheckBox4 = new javax.swing.JCheckBox();
-        jCheckBox5 = new javax.swing.JCheckBox();
-        jCheckBox6 = new javax.swing.JCheckBox();
+        checkboxLunes = new javax.swing.JCheckBox();
+        checkboxMartes = new javax.swing.JCheckBox();
+        checkboxMiercoles = new javax.swing.JCheckBox();
+        checkoxJueves = new javax.swing.JCheckBox();
+        checkboxViernes = new javax.swing.JCheckBox();
+        checkBoxSabado = new javax.swing.JCheckBox();
         jLabel6 = new javax.swing.JLabel();
         selectAct = new javax.swing.JComboBox();
+        jLabel7 = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txthora1 = new javax.swing.JTextPane();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txthora2 = new javax.swing.JTextPane();
+        jLabel10 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        txtname = new javax.swing.JTextPane();
+        jLabel11 = new javax.swing.JLabel();
+        jSeparator2 = new javax.swing.JSeparator();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        txtcosto = new javax.swing.JTextPane();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jSeparator3 = new javax.swing.JSeparator();
+        jLabel15 = new javax.swing.JLabel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        txtid = new javax.swing.JTextPane();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        txtedadhasta = new javax.swing.JTextPane();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        txtedaddesde1 = new javax.swing.JTextPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uy/com/utu/gui/configactividades.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon("/home/jose/Imágenes/Imagenes Java/ingreso_nuevo_plan.png")); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 60));
 
         jLabel2.setText("Seleccion Actividad");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, -1, -1));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, -1, -1));
 
         jLabel3.setText("Gimnasio");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 100, -1));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, 100, -1));
 
         SelectGimnasio.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        getContentPane().add(SelectGimnasio, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 170, -1));
+        getContentPane().add(SelectGimnasio, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, 170, -1));
 
         jLabel4.setText("Sexo");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, 170, 20));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, 170, 20));
 
         selectsexo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        getContentPane().add(selectsexo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 200, 170, -1));
+        getContentPane().add(selectsexo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, 170, -1));
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 330, 700, -1));
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uy/com/utu/gui/icono_save.png"))); // NOI18N
@@ -92,7 +198,7 @@ public class ActivitiesTimetable extends javax.swing.JFrame {
                 jButton3ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 300, 130, 40));
+        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 400, 130, 40));
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uy/com/utu/gui/icono_close_1.png"))); // NOI18N
         jButton2.setText("Salir");
@@ -102,42 +208,103 @@ public class ActivitiesTimetable extends javax.swing.JFrame {
                 jButton2ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 300, 120, 40));
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 400, 120, 40));
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jCheckBox1.setText("Lunes");
-        jPanel1.add(jCheckBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+        checkboxLunes.setText("Lunes");
+        jPanel1.add(checkboxLunes, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
 
-        jCheckBox2.setText("Martes");
-        jPanel1.add(jCheckBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 10, -1, -1));
+        checkboxMartes.setText("Martes");
+        jPanel1.add(checkboxMartes, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 10, -1, -1));
 
-        jCheckBox3.setText("Miércoles");
-        jPanel1.add(jCheckBox3, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 10, -1, -1));
+        checkboxMiercoles.setText("Miércoles");
+        jPanel1.add(checkboxMiercoles, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 10, -1, -1));
 
-        jCheckBox4.setText("Jueves");
-        jPanel1.add(jCheckBox4, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 10, -1, -1));
+        checkoxJueves.setText("Jueves");
+        jPanel1.add(checkoxJueves, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 10, -1, -1));
 
-        jCheckBox5.setText("Viernes");
-        jPanel1.add(jCheckBox5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, -1, -1));
+        checkboxViernes.setText("Viernes");
+        jPanel1.add(checkboxViernes, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, -1, -1));
 
-        jCheckBox6.setText("Sabados");
-        jPanel1.add(jCheckBox6, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 40, -1, -1));
+        checkBoxSabado.setText("Sabados");
+        jPanel1.add(checkBoxSabado, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 40, -1, -1));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 100, 470, 70));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 130, 470, 70));
 
         jLabel6.setText("Dias de Actividad");
-        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 80, -1, -1));
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 110, -1, -1));
 
         selectAct.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        getContentPane().add(selectAct, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 180, -1));
+        getContentPane().add(selectAct, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 180, -1));
+
+        jLabel7.setText("Horas");
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 320, 110, 20));
+        getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 320, 450, 20));
+
+        jLabel8.setText("Desde");
+        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 360, 50, 20));
+
+        jLabel9.setText("Hasta");
+        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 360, -1, 20));
+
+        jScrollPane1.setViewportView(txthora1);
+
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 360, 110, -1));
+
+        jScrollPane2.setViewportView(txthora2);
+
+        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 360, 110, -1));
+
+        jLabel10.setText("Nombre Plan");
+        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 70, 110, 20));
+
+        jScrollPane3.setViewportView(txtname);
+
+        getContentPane().add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 70, 350, -1));
+
+        jLabel11.setText("Costo");
+        getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 200, -1, 20));
+        getContentPane().add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 340, 450, -1));
+
+        txtcosto.setBackground(new java.awt.Color(255, 153, 102));
+        jScrollPane4.setViewportView(txtcosto);
+
+        getContentPane().add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 200, 100, -1));
+
+        jLabel12.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(204, 0, 0));
+        jLabel12.setText("Edades");
+        getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 250, 180, -1));
+
+        jLabel13.setText("Desde");
+        getContentPane().add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 280, 50, 20));
+
+        jLabel14.setText("Hasta");
+        getContentPane().add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 280, 50, 20));
+        getContentPane().add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 240, 450, 20));
+
+        jLabel15.setText("Id");
+        getContentPane().add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, -1, 20));
+
+        txtid.setEnabled(false);
+        jScrollPane5.setViewportView(txtid);
+
+        getContentPane().add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 70, 90, -1));
+
+        jScrollPane6.setViewportView(txtedadhasta);
+
+        getContentPane().add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 280, 70, -1));
+
+        jScrollPane7.setViewportView(txtedaddesde1);
+
+        getContentPane().add(jScrollPane7, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 280, 70, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-     
-
+        InsertConfigActivity();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -174,29 +341,198 @@ public class ActivitiesTimetable extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ActivitiesTimetable().setVisible(true);
+                try {
+                    new ActivitiesTimetable().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(ActivitiesTimetable.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
 
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox SelectGimnasio;
+    private javax.swing.JCheckBox checkBoxSabado;
+    private javax.swing.JCheckBox checkboxLunes;
+    private javax.swing.JCheckBox checkboxMartes;
+    private javax.swing.JCheckBox checkboxMiercoles;
+    private javax.swing.JCheckBox checkboxViernes;
+    private javax.swing.JCheckBox checkoxJueves;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JCheckBox jCheckBox3;
-    private javax.swing.JCheckBox jCheckBox4;
-    private javax.swing.JCheckBox jCheckBox5;
-    private javax.swing.JCheckBox jCheckBox6;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
     private javax.swing.JComboBox selectAct;
     private javax.swing.JComboBox selectsexo;
+    private javax.swing.JTextPane txtcosto;
+    private javax.swing.JTextPane txtedaddesde1;
+    private javax.swing.JTextPane txtedadhasta;
+    private javax.swing.JTextPane txthora1;
+    private javax.swing.JTextPane txthora2;
+    private javax.swing.JTextPane txtid;
+    private javax.swing.JTextPane txtname;
     // End of variables declaration//GEN-END:variables
+
+    private void SelectActivity() throws SQLException {
+        ConectaDB con = new ConectaDB();
+        Connection connn = con.getConnection();
+        ResultSet rs;
+
+        String sql = "SELECT NAME FROM ACTIVITY";
+        PreparedStatement sqls = connn.prepareStatement(sql);
+        rs = sqls.executeQuery();
+        while (rs.next()) {
+            this.selectAct.addItem(rs.getString("NAME"));
+
+        }
+    }
+
+    private void SelectGym() throws SQLException {
+        ConectaDB con = new ConectaDB();
+        Connection conn = con.getConnection();
+        ResultSet rs;
+        String sql = "SELECT NAME FROM CONFIGURATION_GYM";
+        PreparedStatement sqls = conn.prepareStatement(sql);
+        rs = sqls.executeQuery();
+        while (rs.next()) {
+            this.SelectGimnasio.addItem(rs.getString("NAME"));
+        }
+    }
+
+    private void selectSexo() throws SQLException {
+        ConectaDB con = new ConectaDB();
+        Connection conn = con.getConnection();
+        ResultSet rs;
+        String sql = "SELECT NAME_SEXO FROM SEXO";
+        PreparedStatement sqls = conn.prepareStatement(sql);
+        rs = sqls.executeQuery();
+        while (rs.next()) {
+            this.selectsexo.addItem(rs.getString("NAME_SEXO"));
+        }
+
+    }
+
+    private Integer ReturnidActivity(String name) throws SQLException {
+        ConectaDB con = new ConectaDB();
+        Connection conn = con.getConnection();
+        ResultSet rs;
+        String sql = "SELECT ID_ACTIVITY FROM ACTIVITY WHERE NAME= ?";
+        PreparedStatement sqls = conn.prepareStatement(sql);
+        sqls.setString(1, name);
+        rs = sqls.executeQuery();
+        Integer return_id = 0;
+        while (rs.next()) {
+            return_id = rs.getInt("ID_ACTIVITY");
+        }
+
+        return return_id;
+
+    }
+
+    private Integer ReturnIdGym(String name) throws SQLException {
+        ConectaDB con = new ConectaDB();
+        Connection conn = con.getConnection();
+        ResultSet rs;
+        String sql = "SELECT ID_GYM FROM CONFIGURATION_GYM WHERE NAME= ?";
+        PreparedStatement sqls = conn.prepareStatement(sql);
+        sqls.setString(1, name);
+        rs = sqls.executeQuery();
+        Integer return_idgym = 0;
+
+        while (rs.next()) {
+            return_idgym = rs.getInt("ID_GYM");
+        }
+        return return_idgym;
+    }
+
+    private Integer ReturnIdSexo(String name) throws SQLException {
+        ConectaDB con = new ConectaDB();
+        Connection conn = con.getConnection();
+        ResultSet rs;
+        String sql = "SELECT ID_SEXO FROM SEXO WHERE NAME_SEXO=?";
+        PreparedStatement sqls = conn.prepareStatement(sql);
+        sqls.setString(1, name);
+        rs = sqls.executeQuery();
+
+        Integer idSexo = 0;
+        while (rs.next()) {
+            idSexo = rs.getInt("ID_SEXO");
+        }
+
+        return idSexo;
+    }
+
+    public void InsertConfigActivity() {
+        String rpta;
+        allocateTickets();
+        rpta = actcionfBus.insertConfigurationactivity(actconf);
+        if (rpta == null) {
+            JOptionPane.showMessageDialog(null, "Se ingresaron correctamente los datos");
+             ClearForm();
+        } else {
+            JOptionPane.showMessageDialog(null, "Error al Ingresar los datos");
+        }
+        
+       
+
+    }
+
+    public void ClearForm() {
+        txtname.setText(null);
+        txthora1.setText(null);
+        txthora2.setText(null);
+        txtcosto.setText(null);
+        txtedaddesde1.setText(null);
+        txtedadhasta.setText(null);
+        if (checkboxLunes.isSelected() == true) {
+            checkboxLunes.setSelected(false);
+        }
+        if (checkboxMartes.isSelected() == true) {
+            checkboxMartes.setSelected(false);
+        }
+        if (checkboxMiercoles.isSelected() == true) {
+            checkboxMiercoles.setSelected(false);
+        }
+        if (checkoxJueves.isSelected() == true) {
+            checkoxJueves.setSelected(false);
+        }
+        if (checkboxViernes.isSelected() == true) {
+            checkboxViernes.setSelected(true);
+        }
+        if(checkBoxSabado.isSelected()==true){
+            checkBoxSabado.setSelected(false);
+        }
+        txtname.requestFocus();
+    }
+    
+    private void idPlan(){
+        Integer  id_plan = actcionfBus.idConfigurationactivity();
+        txtid.setText(String.valueOf(id_plan));
+    }
+
 }
